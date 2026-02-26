@@ -20,7 +20,6 @@ const app = express();
 // yaha http ka server create hua
 const httpServer = createServer(app);
 
-
 // url se data nikalne ke liye
 app.use(express.urlencoded({extended : true}));
 
@@ -40,7 +39,7 @@ const io = new Server(httpServer, {
 io.use(socketAuth);
 
 io.on("connection", async(socket) => {
-  console.log("Socked Id --> ",socket.id);
+//   console.log("Socked Id --> ",socket.id);
 
   socket.join(`user:${socket.user.id}`);
   chatHandler(socket,io);
@@ -48,8 +47,11 @@ io.on("connection", async(socket) => {
 
   await prisma.user.update({
     where: { id: userId },
-    data: { lastOnline : null } 
+    data: { online : true } 
   });
+
+    io.emit("user:online",userId);
+
 });  
 
 // send requests to routers

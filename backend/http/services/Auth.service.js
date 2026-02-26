@@ -26,7 +26,7 @@ export async function Signup({email,name,password}){
         })
 
         let token = await jwt.sign({id:user.id ,name,email}, env.JWT_SECRET);
-
+        // console.log("Token ==> ",token);
         return {
             user : {
                 id : user.id,

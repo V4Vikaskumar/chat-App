@@ -24,7 +24,8 @@ model User{
   conversationA DirectConversation[] @relation("UserA")
   conversationB DirectConversation[] @relation("UserB")
   Message       Message[]
-  lastOnline    DateTime?
+  lastSeen    DateTime?
+  online      Boolean @default(false)
 }
 
 model DirectConversation {
@@ -38,7 +39,7 @@ model DirectConversation {
   userB    User      @relation("UserB", fields: [userBId], references: [id], onDelete: Cascade)
   messages Message[]
 
-  @@unique([userAId, userBId])
+  @@unique([userAId, userBId], name: "userAId_userBId")
   @@index([userAId])
   @@index([userBId])
   @@index([updatedAt])
@@ -49,9 +50,12 @@ model Message {
   conversationId String      @db.Uuid
   senderId       String      @db.Uuid
   text           String      @db.Text
+  type           String      @default("text")
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
-
+  receiverId     String      @db.Uuid
+  read           Boolean     @default(false)
+  delivered       Boolean     @default(false)
 
   conversation DirectConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   sender       User               @relation(fields: [senderId], references: [id], onDelete: Cascade)

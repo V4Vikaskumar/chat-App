@@ -14,12 +14,24 @@ export default async function getfriends(req,res,next){
                 ]
             },
             include : {
-                userA : { select : { id : true, name : true , email : true}},
-                userB : {select : { id : true, name : true , email : true}},
+                userA : { select : { id : true, name : true , email : true, lastSeen : true}},
+                userB : { select : { id : true, name : true , email : true, lastSeen : true}},
             }
         })
-        console.log(allfriends)
+        // console.log("all Friend ",allfriends)
         res.send(allfriends)
+    } catch (error) {
+        return error;
+    }
+    try {
+        const unread = await prisma.message.count({
+            where: {
+                conversationId: conv.id,
+                receiverId: userId,
+                read: false
+            }
+        });
+        return res.send(unread);
     } catch (error) {
         return error;
     }
@@ -34,13 +46,13 @@ export async function getMessages(req,res,next){
             },
             include : {
                 sender : {
-                    select : {
-                        name : true,
-                        id : true,
-                        email: true
+                    select: {
+                        id: true,
+                        name: true
                     }
                 }
-            }
+            },
+            orderBy: { createdAt: "asc" }
         })
         
         return res.status(200).json(Allmessage);

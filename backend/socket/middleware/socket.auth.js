@@ -9,13 +9,13 @@ export async function socketAuth(socket, next){
     try {
         const token = socket.handshake.auth?.token ||
             socket.handshake.headers?.authorization?.split(" ")[1];
-        console.log(token);
+        // console.log(token);
 
         if(!token){
             throw new Error('Token not Found');
         }
         const payload = jwt.verify(token,JWT_SECRET);
-        console.log("payload",payload);
+        // console.log("payload",payload);
         const userId = payload.id;
         if(!userId){
             throw new Error('User hi nahi hai bhai ...');
