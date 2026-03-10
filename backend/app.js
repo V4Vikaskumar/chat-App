@@ -49,9 +49,7 @@ io.on("connection", async(socket) => {
     where: { id: userId },
     data: { online : true } 
   });
-
     io.emit("user:online",userId);
-
 });  
 
 // send requests to routers
