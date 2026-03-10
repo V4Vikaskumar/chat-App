@@ -3,10 +3,11 @@ import useAuth from '../context/AuthProvider';
 import { io } from 'socket.io-client'
 import axios from '../Apis/Api';
 import { find, lastOnline } from '../Apis/Auth';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const { logout, token, user } = useAuth();
-
+  const navigate = useNavigate();
   const [socket, setSocket] = useState(null);
   const [connected, setIsConnected] = useState(false);
   const [receiverId, setReceiverId] = useState('');
@@ -20,7 +21,7 @@ const Dashboard = () => {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:4444", {
+    const newSocket = io('https://chat-backend-ddnl.onrender.com', {
       auth: { token },
     });
 
@@ -204,11 +205,16 @@ const Dashboard = () => {
             {connected ? "Online" : "Connecting..."}
           </span>
         </div>
-        <button onClick={logout}>Logout</button>
+        <div>
+          <button onClick={() => navigate("/settings")}>
+            ⚙ Settings
+          </button> 
+          <span>   </span>
+          <button onClick={logout}>Logout</button>
+      </div>
       </div>
 
       <div className="chat-body">
-
         <div className="chat-sidebar">
           <h4>Friends</h4>
 

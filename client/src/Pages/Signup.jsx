@@ -1,40 +1,84 @@
-import React, { useEffect, useState } from 'react'
-import {Navigate, useNavigate} from 'react-router'
-import useAuth from '../context/AuthProvider';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../context/AuthProvider";
+import "../cssFolder/signup.css";
+
 const Signup = () => {
   const navigate = useNavigate();
-  const {user} = useAuth();
+  const { user, signup } = useAuth();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   useEffect(() => {
-    if(user){
-      navigate('/dashboard')
+    if (user) {
+      navigate("/dashboard");
     }
-  },[])
-    const [name,setName] = useState('');
-    const [email,setEmail] = useState('');
-    const [password,setPassword] = useState('');
-    const {signup} = useAuth();
-    const signupHandler = async (e) => {
-        e.preventDefault();
-        try {
-            await signup({name,email,password});
-        } catch (error) {
-          console.log(error);
-          return error;
-        }
+  }, [user]);
+
+  const signupHandler = async (e) => {
+    e.preventDefault();
+    try {
+      await signup({ name, email, password });
+    } catch (error) {
+      console.log(error);
     }
+  };
 
   return (
-    <>
-      <form onSubmit={signupHandler}>
-          Name : <input type="text" placeholder='Enter Your Name' value={name} onChange={(e) => setName(e.target.value)} /> <br />
-          Email : <input type="text" placeholder='Enter Your Email' value={email} onChange={(e) => setEmail(e.target.value)} /> <br />
-          Password : <input type="text" placeholder='Enter Your PassWord' value={password} onChange={(e) => setPassword(e.target.value)} /> <br />
-          <button type='Submit'>Signup</button>
-      </form>
-      If You Have A Account : <button onClick={() => navigate('/signin')}>Signin</button>
-    </>
-    
-  )
-}
+    <div className="signup-container">
+      <div className="signup-card">
+        <h2>Create Account 🚀</h2>
 
-export default Signup
+        <form onSubmit={signupHandler}>
+
+          <div className="input-group">
+            <label>Name</label>
+            <input
+              type="text"
+              placeholder="Enter Your Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="input-group">
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="Enter Your Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="input-group">
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="Enter Your Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <button type="submit" className="signup-btn">
+            Sign Up
+          </button>
+
+        </form>
+
+        <p className="signin-text">
+          Already have an account?
+          <span onClick={() => navigate("/signin")}> Sign In</span>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default Signup;

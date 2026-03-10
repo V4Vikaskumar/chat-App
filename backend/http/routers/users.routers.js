@@ -5,7 +5,7 @@ const router = Router();
 
 router.get('/friends', getfriends);
 router.get('/message',getMessages);
-router.get('/lastonline',lastonline);
+router.post('/lastonline',lastonline);
 
 
 export default router;

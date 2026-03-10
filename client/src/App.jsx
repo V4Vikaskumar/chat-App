@@ -4,6 +4,7 @@ import { Routes,Route, Navigate } from 'react-router-dom';
 import Signin from './Pages/Signin';
 import Dashboard from './Pages/Dashboard';
 import useAuth from './context/AuthProvider';
+import Settings from './Pages/Setting';
 
 
 const App = () => {
@@ -19,9 +20,9 @@ const App = () => {
         element={!isloggedIn ? <Signin/> : <Navigate to={'/dashboard'}/> } />
       <Route path='*' 
         element={!isloggedIn ? <Signin/> : <Dashboard/>} />
+      <Route path="/settings" element={<Settings />} />
     </Routes>
     </>
-    
   )
 }
 

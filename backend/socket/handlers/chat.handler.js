@@ -175,9 +175,9 @@ export async function lastonline(req,res){
 
         await prisma.user.update({
             where: { id: userId },
-                data: {
+              data: {
                 lastSeen: new Date()
-            }
+              }
         });
     } catch (error) {
         throw new Error(error);
