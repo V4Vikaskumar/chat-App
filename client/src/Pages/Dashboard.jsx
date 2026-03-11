@@ -21,7 +21,7 @@ const Dashboard = () => {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    const newSocket = io('https://chat-backend-ddnl.onrender.com', {
+    const newSocket = io('https://chat-app-1-lbg4.onrender.com', {
       auth: { token },
     });
 
