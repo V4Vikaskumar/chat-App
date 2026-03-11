@@ -31,7 +31,7 @@ app.use(cors({
 }));
 const io = new Server(httpServer, {
     cors : {
-        origin : env.CROSS_ORIGIN || ''
+        origin : "*"
     }
 });
 
