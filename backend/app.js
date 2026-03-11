@@ -26,8 +26,8 @@ app.use(express.urlencoded({extended : true}));
 // axios ki request ko chalane ke liye;
 app.use(express.json());
 app.use(cors({
-    origin : env.CROSS_ORIGIN || '',
-    // credentials : true
+    origin : env.CROSS_ORIGIN,
+    credentials : true
 }));
 const io = new Server(httpServer, {
     cors : {
