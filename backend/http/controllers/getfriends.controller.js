@@ -58,7 +58,7 @@ export async function getMessages(req,res,next){
         return res.status(200).json(Allmessage);
     } catch (error) {
         console.log(error);
-        throw new Error(error);
+        return error;
     }
     
 }

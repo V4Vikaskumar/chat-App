@@ -2,8 +2,11 @@ import React, { useEffect, useState, useRef } from 'react'
 import useAuth from '../context/AuthProvider';
 import { io } from 'socket.io-client'
 import axios from '../Apis/Api';
-import { find, lastOnline } from '../Apis/Auth';
+import { lastOnline } from '../Apis/Auth';
 import { useNavigate } from 'react-router-dom';
+import { formatLastSeen } from '../context/lastSeenfun';
+import { chatHandler } from '../fun/chatHandler';
+import { Addfriend } from '../fun/addfriend';
 
 const Dashboard = () => {
   const { logout, token, user } = useAuth();
@@ -122,62 +125,6 @@ const Dashboard = () => {
     setSelectedFile(e.target.files[0]);
   };
 
-  const chatHandler = async () => {
-    if (!receiverId) return alert("Select a friend");
-
-    if (messageType === "text") {
-      if (!text.trim()) return;
-
-      socket.emit("chat:send", {
-        receiverId,
-        text,
-        type: "text"
-      });
-
-      setText("");
-      return;
-    }
-
-    if (!selectedFile) return alert("Select a file");
-
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-
-    try {
-      const { data } = await axios.post("/api/start/upload", formData);
-
-      socket.emit("chat:send", {
-        receiverId,
-        text: data.fileUrl,
-        type: messageType
-      });
-      // console.log("data",data);
-      setSelectedFile(null);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-
-    } catch (err) {
-      console.log(err);
-      throw new Error(err);
-    }
-  };
-
-  async function Addfriend() {
-    const nameofFriend = newfriend.current.value;
-
-    const isAvailble = await find({ nameofFriend });
-    if (!isAvailble) return alert('User Not Found');
-
-    await axios.post('/api/start/conversation', {
-      receiverId: isAvailble.id,
-      asp: user
-    });
-
-    setMessages([]);
-    newfriend.current.value = '';
-  }
-
   useEffect(() => {
     if (!socket || !receiverId) return;
 
@@ -219,12 +166,12 @@ const Dashboard = () => {
           <h4>Friends</h4>
 
           <input type="text" placeholder='Enter Email Id' ref={newfriend} />
-          <button onClick={Addfriend} disabled={!connected}>Add New Friend</button>
+          <button onClick={() => Addfriend({newfriend,user,setMessages})} disabled={!connected}>Add New Friend</button>
 
           {friendList.map((f) => (
             <div
               key={f.id}
-              className="friend"
+              className={`friend ${receiverId === (f.userA.id === user.id ? f.userB.id : f.userA.id) ? "active-friend" : ""}`}
               onClick={async () => {
 
                 const id =
@@ -241,20 +188,25 @@ const Dashboard = () => {
                 setMessages(data);
               }}
             >
-              {f.userA.id !== user.id && <div>{f.userA.name} <span>
+              {f.userA.id !== user.id && <div>{f.userA.name} 
+                  <span className="friend-status">
                     {f.userA.online
-                      ? " 🟢 Online"
-                      : f.userA.lastSeen
-                      ? ` Last seen ${new Date(f.userA.lastSeen).toLocaleTimeString()}`
-                      : ""}
+                    ? <span className="status-online">🟢 Online</span>
+                    : f.userA.lastSeen
+                    ? <span className="status-lastseen">
+                        Last seen {new Date(f.userA.lastSeen).toLocaleTimeString()}
+                      </span>
+                    : ""}
                   </span>
                 </div>}
               {f.userB.id !== user.id && <div>{f.userB.name}
-                <span>
+                <span className="friend-status">
                     {f.userB.online
-                      ? " 🟢 Online"
+                      ? <span className="status-online">🟢 Online</span>
                       : f.userB.lastSeen
-                      ? ` Last seen ${new Date(f.userB.lastSeen).toLocaleTimeString()}`
+                      ? <span className="status-lastseen">
+                          Last seen {formatLastSeen(f.userB.lastSeen)}
+                        </span>
                       : ""}
                   </span>
                 </div>}
@@ -287,13 +239,13 @@ const Dashboard = () => {
                 )}
 
                 {m.senderId === user.id && (
-                  <span style={{ fontSize: "12px" }}>
+                  <div style={{ fontSize: "12px" }}>
                     {m.read
                       ? "✔✔ Read"
                       : m.delivered
                       ? "✔✔ Delivered"
                       : "✔ Send"}
-                  </span>
+                  </div>
                 )}
               </div>
             ))}
@@ -302,6 +254,7 @@ const Dashboard = () => {
           <div className="chat-input">
 
             <select
+              className="message-type-select"
               value={messageType}
               onChange={(e) => setMessageType(e.target.value)}
             >
@@ -326,7 +279,7 @@ const Dashboard = () => {
               />
             )}
 
-            <button onClick={chatHandler} disabled={!connected}>
+            <button onClick={() => chatHandler({receiverId,messageType,text,socket,setText,setSelectedFile,selectedFile,fileInputRef})} disabled={!connected}>
               Send
             </button>
 

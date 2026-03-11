@@ -37,7 +37,7 @@ export async function Signup({email,name,password}){
         }
     } catch (error) {
         console.log(error);
-        throw error;
+        // throw error;
     }
 }
 
@@ -70,6 +70,6 @@ export async function Signin({email,password}){
         }
     } catch (error) {
         console.log(error);
-        throw error;
+        // throw error;
     }
 }

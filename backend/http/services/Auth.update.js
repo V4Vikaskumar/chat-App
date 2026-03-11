@@ -59,7 +59,7 @@ export async function updatePassword(req,res){
         });
     } catch (error) {
         console.log(error);
-        throw new Error(error)
+        // throw new Error(error)
     }
 }
 
@@ -87,6 +87,6 @@ export async function updateEmail(req,res){
         })
     } catch (error) {
         console.log(error);
-        throw new Error(error);
+        // throw new Error(error);
     }
 }

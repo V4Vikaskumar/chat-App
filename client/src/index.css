@@ -201,3 +201,50 @@ body {
 .chat-input button:hover:not(:disabled) {
   background: #1fc25b;
 }
+
+
+/* friend item */
+.friend {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+  transition: 0.2s;
+}
+
+.friend:hover {
+  background-color: #f2f2f2;
+}
+
+/* selected friend */
+.active-friend {
+  background-color: #d0ebff;
+  font-weight: bold;
+}
+
+/* friend status */
+.friend-status {
+  margin-left: 8px;
+  font-size: 12px;
+}
+
+/* online */
+.status-online {
+  color: green;
+  font-weight: 500;
+}
+
+/* last seen */
+.status-lastseen {
+  margin-left: 10%;
+  margin-right: 0%;
+  color: gray;
+  font-style: italic;
+}
+
+/* message type select */
+.message-type-select {
+  padding: 6px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-right: 5px;
+}

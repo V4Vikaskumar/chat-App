@@ -15,7 +15,7 @@ export async function socketAuth(socket, next){
             throw new Error('Token not Found');
         }
         const payload = jwt.verify(token,JWT_SECRET);
-        // console.log("payload",payload);
+        console.log("payload",payload);
         const userId = payload.id;
         if(!userId){
             throw new Error('User hi nahi hai bhai ...');

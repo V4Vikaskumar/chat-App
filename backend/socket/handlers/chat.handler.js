@@ -87,7 +87,7 @@ export default function (socket, io) {
       });
     } catch (error) {
       console.log(error);
-      throw new Error(error);
+      // throw new Error(error);
     }
           
   });
@@ -100,7 +100,8 @@ export default function (socket, io) {
 
       io.emit("user:online", socket.user.id);
     } catch (error) {
-      throw new Error(error);
+      console.log(error);
+      // throw new Error(error);
     }    
   });
 
@@ -124,7 +125,7 @@ export default function (socket, io) {
        
       } catch (error) {
         console.log(error);
-        throw new Error(error);
+        // throw new Error(error);
       }
     });
 
@@ -164,7 +165,7 @@ async function getOrCreateConversation(userAId,userBId){
         return conver;
     } catch (error) {
         console.log(error);
-        throw new Error(error);
+        // throw new Error(error);
     }
 }
 
@@ -180,6 +181,7 @@ export async function lastonline(req,res){
               }
         });
     } catch (error) {
-        throw new Error(error);
+      console.log(error);
+        // throw new Error(error);
     }
 }
