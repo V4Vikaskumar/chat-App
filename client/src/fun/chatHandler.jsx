@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../Apis/Api";
 
 export const chatHandler = async ({receiverId,messageType,text,socket,setText,setSelectedFile,selectedFile,fileInputRef}) => {
     try {

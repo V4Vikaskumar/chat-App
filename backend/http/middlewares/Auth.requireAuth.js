@@ -9,12 +9,10 @@ export default async function requireAuth(req,res,next){
         if(!req.headers.authorization) { return res.status(401).json({ error : 'Token Required -1' })}
         let token = req.headers.authorization.split(' ')[1];
         if(!token){ return res.status(401).json({ error : 'Token Required' })};
-        if(token == null){
-            token = localStorage.getItem('token');
-        }
+
         // console.log(req.headers)                                                                                                         
         // console.log("Authorization Header:", req.headers.authorization);
-        // console.log("Extracted Token:", token);
+        console.log("Extracted Token:", token);
         // console.log("env secret " , env.JWT_SECRET);
         const decoded = jwt.verify(token,env.JWT_SECRET);
         const user = await Prisma.user.findUnique({

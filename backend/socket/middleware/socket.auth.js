@@ -30,6 +30,7 @@ export async function socketAuth(socket, next){
             },
         });
         if(!user){
+            console.log(userId);
             throw new Error('user not Found');
         }
 

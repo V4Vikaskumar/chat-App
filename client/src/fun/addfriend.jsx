@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../Apis/Api";
 import { find } from "../Apis/Auth";
 export async function Addfriend({newfriend,user,setMessages}) {
     const nameofFriend = newfriend.current.value;

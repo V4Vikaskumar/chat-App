@@ -17,25 +17,22 @@ const prisma = new PrismaClient();
 
 const PORT = env.PORT || 4444;
 const app = express();
-// yaha http ka server create hua
 const httpServer = createServer(app);
 
-// url se data nikalne ke liye
 app.use(express.urlencoded({extended : true}));
 
-// axios ki request ko chalane ke liye;
 app.use(express.json());
+
 app.use(cors({
-    origin : "*",
-    credentials : true
+    origin : env.CROSS_ORIGIN,
+    // credentials : true
 }));
 const io = new Server(httpServer, {
     cors : {
-        origin : "*"
+        origin : env.CROSS_ORIGIN
     }
 });
 
-// ye socket ka middleware hai
 io.use(socketAuth);
 
 io.on("connection", async(socket) => {

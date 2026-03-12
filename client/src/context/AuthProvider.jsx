@@ -23,7 +23,7 @@ export const AuthProvider = ({children}) => {
     function set({user, token}){
         setuser(user);
         auth.user = user;
-        auth.token = token;
+        auth.token(token);
         Setisloggedin(true);
         navigate('/');
     }
