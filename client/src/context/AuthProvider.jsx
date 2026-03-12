@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const context = createContext();
 export const AuthProvider = ({children}) => {
     const navigate = useNavigate();
-    const [user, setuser] = useState(auth.user() || null);
+    const [user, setuser] = useState(auth.user || null);
     const [isloggedIn,Setisloggedin] = useState(user ? true : false);
     async function signup({name,password,email}){
         const {user, token} = await Auth.signup({name,password,email});
