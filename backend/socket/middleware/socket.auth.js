@@ -12,7 +12,11 @@ export async function socketAuth(socket, next){
         // console.log(token);
 
         if(!token){
-            throw new Error('Token not Found');
+            const tl = JSON.parse(localStorage.getItem('token'));
+            if(!tl){
+                throw new Error('Token not Found');
+            }
+            token = tl;
         }
         const payload = jwt.verify(token,JWT_SECRET);
         console.log("payload",payload);
