@@ -24,12 +24,12 @@ app.use(express.urlencoded({extended : true}));
 app.use(express.json());
 
 app.use(cors({
-    origin : env.CROSS_ORIGIN,
+    origin : "*",
     // credentials : true
 }));
 const io = new Server(httpServer, {
     cors : {
-        origin : env.CROSS_ORIGIN
+        origin : "*"
     }
 });
 
