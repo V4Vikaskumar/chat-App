@@ -18,7 +18,7 @@ const App = () => {
         element={!isloggedIn ? <Signup/> : <Navigate to={'/dashboard'}/>} />
       <Route path='/signin' 
         element={!isloggedIn ? <Signin/> : <Navigate to={'/dashboard'}/> } />
-      <Route path='*' 
+      <Route path='/*' 
         element={!isloggedIn ? <Signin/> : <Dashboard/>} />
       <Route path="/settings" element={<Settings />} />
     </Routes>
