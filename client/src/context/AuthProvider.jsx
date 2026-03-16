@@ -22,8 +22,8 @@ export const AuthProvider = ({children}) => {
     }
     function set({user, token}){
         setuser(user);
-        auth.user(user);
-        auth.token(token);
+        auth.user = user;
+        auth.token = token;
         Setisloggedin(true);
         navigate('/');
     }
