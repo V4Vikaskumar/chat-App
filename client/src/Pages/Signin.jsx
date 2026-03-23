@@ -23,7 +23,7 @@ const Signin = () => {
   return (
     <div className="signin-container">
       <div className="signin-card">
-        <h2>Welcome Back 👋</h2>
+        <h2>Welcome Back</h2>
 
         <form onSubmit={signhandler}>
 

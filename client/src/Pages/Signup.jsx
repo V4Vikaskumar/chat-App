@@ -29,7 +29,7 @@ const Signup = () => {
   return (
     <div className="signup-container">
       <div className="signup-card">
-        <h2>Create Account 🚀</h2>
+        <h2>Create Account</h2>
 
         <form onSubmit={signupHandler}>
 
